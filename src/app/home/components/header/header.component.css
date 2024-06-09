@@ -15,12 +15,15 @@
     height: 2.5em;
     display: inline-block;
     border: none;
+    background-color: white;
 }
 
 .search-button{
     width: 10%;
     height: 2.5em;
     border: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     background-color: #dadada;
 }
 
@@ -28,6 +31,8 @@
     width: 15%;
     height: 2.5em;
     border: none;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     background-color: #dadada;
     font-weight: 600;
 }
@@ -66,4 +71,9 @@
         font-size: 1.3em;
         margin-right: 0.5em;
     }
+}
+
+.back{
+    background-color: white;
+    border-radius: 20px;
 }
