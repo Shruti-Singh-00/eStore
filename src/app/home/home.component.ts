@@ -4,11 +4,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavigationbarComponent } from './components/navigationbar/navigationbar.component';
 import { SidenavigationComponent } from './components/sidenavigation/sidenavigation.component';
 import { ProductsComponent } from './components/products/products.component';
+import { RatingsComponent } from '../shared/components/ratings/ratings.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent],
+  imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

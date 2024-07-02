@@ -1,0 +1,38 @@
+.main-product-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 10px -20px 10px -20px;
+
+    .product-card{
+        display: inline-flex;
+        flex-direction: column;
+        box-shadow: 3px 1px 14px 0px lightgray;
+        border-radius: 0.6em;
+        margin-bottom: 20px;
+    }
+
+    .product-info{
+        text-align: center;
+        h5{
+            font-weight: 600;
+        }
+        margin-top: 8px;
+
+        .product-price{
+            font-weight: 400;
+            font-size: 1.2em;
+            margin-bottom:-4px;
+        }
+    }
+}
+
+a{
+    text-decoration: none;
+    color: black;
+
+    &:hover{
+        color: black;
+    }
+}
