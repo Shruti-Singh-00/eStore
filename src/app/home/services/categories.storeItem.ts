@@ -7,6 +7,9 @@ import { Observable, map } from "rxjs";
 
 @Injectable()
 export class CategoriesStoreItem extends StoreItem<Category[]>{
+    static topLevelCategories$() {
+      throw new Error('Method not implemented.');
+    }
     constructor(private categoryService: CategoryService){
         super([]); 
     }
