@@ -6,14 +6,19 @@ import { SidenavigationComponent } from './components/sidenavigation/sidenavigat
 import { ProductsComponent } from './components/products/products.component';
 import { RatingsComponent } from '../shared/components/ratings/ratings.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoriesStoreItem } from './services/categories.storeItem';
+import { CategoryService } from './services/category.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent, HttpClientModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  providers: [CategoriesStoreItem, CategoryService]
 })
 export class HomeComponent {
-
+  constructor(private categoriesStoreItems: CategoriesStoreItem){
+    this.categoriesStoreItems.loadCategories();
+  }
 }
