@@ -5,11 +5,12 @@ import { NavigationbarComponent } from './components/navigationbar/navigationbar
 import { SidenavigationComponent } from './components/sidenavigation/sidenavigation.component';
 import { ProductsComponent } from './components/products/products.component';
 import { RatingsComponent } from '../shared/components/ratings/ratings.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent],
+  imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent, HttpClientModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

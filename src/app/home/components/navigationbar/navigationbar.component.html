@@ -1,8 +1,10 @@
 <div class="navigation-container">
     <ul>
-        <li><a class="highlight" href="#">Men</a></li>
-        <li><a class="highlight" href="#">Women</a></li>
-        <li><a class="highlight" href="#">Kids</a></li>
-        <li><a class="highlight" href="#">Best offers</a></li>
+        <li class="highlight"><a href="javascript:void(0)">Home</a></li>
+        @for (category of categories; track category) {
+            <li class="highlight">
+                <a href="javascript:void(0)">{{ category.category }}</a>
+            </li>
+        }
     </ul>
 </div>
