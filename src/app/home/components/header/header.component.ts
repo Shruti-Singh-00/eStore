@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { faSearch, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CategoryService } from '../../services/category.service';
+import { CategoryService } from '../../services/category/category.service';
 import { Category } from '../../types/category.type';
 
 @Component({

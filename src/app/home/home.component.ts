@@ -6,8 +6,10 @@ import { SidenavigationComponent } from './components/sidenavigation/sidenavigat
 import { ProductsComponent } from './components/products/products.component';
 import { RatingsComponent } from '../shared/components/ratings/ratings.component';
 import { HttpClientModule } from '@angular/common/http';
-import { CategoriesStoreItem } from './services/categories.storeItem';
-import { CategoryService } from './services/category.service';
+import { CategoriesStoreItem } from './services/category/categories.storeItem';
+import { CategoryService } from './services/category/category.service';
+import { ProductStoreItem } from './services/products/products.storeItem';
+import { ProductsService } from './services/products/products.service';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +17,11 @@ import { CategoryService } from './services/category.service';
   imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent, HttpClientModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  providers: [CategoriesStoreItem, CategoryService]
+  providers: [CategoriesStoreItem, CategoryService, ProductStoreItem, ProductsService]
 })
 export class HomeComponent {
-  constructor(private categoriesStoreItems: CategoriesStoreItem){
+  constructor(private categoriesStoreItems: CategoriesStoreItem, private productStoreItems: ProductStoreItem){
     this.categoriesStoreItems.loadCategories();
+    this.productStoreItems.loadProducts();
   }
 }

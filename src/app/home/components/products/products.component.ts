@@ -1,9 +1,11 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { ProductsService } from './products.service';
-import { ProductListItem } from './products.type';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { ProductsService } from '../../services/products/products.service';
+import { Product } from '../../types/products.type';
 import { RatingsComponent } from '../../../shared/components/ratings/ratings.component';
 import { CommonModule } from '@angular/common';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { ProductStoreItem } from '../../services/products/products.storeItem';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -13,31 +15,26 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
   styleUrl: './products.component.css',
   providers: [ProductsService],
 })
-export class ProductsComponent implements OnInit{
-  products: ProductListItem[] = [];
-
+export class ProductsComponent implements OnDestroy{
+  products: Product[] = [];
+  subscriptions: Subscription = new Subscription();
   isBrowser: any;
   isServer: any;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any, private productService: ProductsService
+    @Inject(PLATFORM_ID) private platformId: any, private productStore: ProductStoreItem
   ){
     this.isBrowser = isPlatformBrowser(platformId);
     this.isServer = isPlatformServer(platformId);
+    this.subscriptions.add(
+      productStore.products$.subscribe((products) => {
+        this.products = products;
+      })
+    );
   }
 
-  ngOnInit(): void {
-    if(this.isBrowser){
-      console.log('App loaded on browser!');
-      this.products = this.productService.getProductsList();
-    }
-    else if(this.isServer){
-      console.log('App loaded on server!');
-    }
-    else{
-      console.log('App loaded!');
-    }
-
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
   
 }

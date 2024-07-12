@@ -1,9 +1,10 @@
 <div class="main-product-container">
     @for (product of products; track product.id) {
     <div class="mx-5 p-3 product-card">
-        <div><img style="height: 300px" [src]="'../../../../assets/images/' + product.product_img + '.jpg'" alt="img"></div>
+        <div><img style="height: 300px" [src]="'../../../../assets/images/' + product.product_img" alt="img"></div>
         <div class="product-info">
             <h5><a href="#">{{product.product_name}}</a></h5>
+            <p>{{product.product_description}}</p>
             <p class="product-price"><span>&#8377;</span>{{product.price}}</p>
             <p>
                 <app-ratings [score]='product.ratings'></app-ratings>
