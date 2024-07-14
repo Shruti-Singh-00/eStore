@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, output } from '@angular/core';
 import { Category } from '../../types/category.type';
 import { OnDestroy } from '@angular/core';
 import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
