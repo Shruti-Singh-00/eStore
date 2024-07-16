@@ -8,7 +8,7 @@ export class ProductsService {
   constructor(private httpClient: HttpClient) {}
 
   getAllProducts(query?: string): Observable<Product[]> {
-    let url: string = 'http://localhost:5001/products';
+    let url: string = 'https://estore-backend-sqni.onrender.com/products';
     if (query) {
       url += '?' + query;
     }
@@ -16,7 +16,7 @@ export class ProductsService {
   }
 
   getProduct(id: number): Observable<Product[]> {
-    const url: string = 'http://localhost:5001/products/' + id;
+    const url: string = 'https://estore-backend-sqni.onrender.com/products/' + id;
     return this.httpClient.get<Product[]>(url);
   }
 }

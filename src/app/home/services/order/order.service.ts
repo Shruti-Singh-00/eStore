@@ -23,7 +23,7 @@ export class OrderService {
     deliveryAddress: DeliveryAddress,
     userEmail: string
   ): Observable<any> {
-    const url: string = 'http://localhost:5001/orders/add';
+    const url: string = 'https://estore-backend-sqni.onrender.com/orders/add';
     const orderDetails: OrderItem[] = [];
     this.cartStore.cart.products.forEach((product) => {
       const orderItem: OrderItem = {
@@ -51,7 +51,7 @@ export class OrderService {
   }
 
   getOrders(userEmail: string): Observable<PastOrder[]> {
-    const url: string = `http://localhost:5001/orders/allorders?userEmail=${userEmail}`;
+    const url: string = `https://estore-backend-sqni.onrender.com/orders/allorders?userEmail=${userEmail}`;
 
     return this.httpClient.get<PastOrder[]>(url, {
       headers: { authorization: this.userService.token },
@@ -59,7 +59,7 @@ export class OrderService {
   }
 
   getOrderProducts(orderId: number): Observable<PastOrderProduct[]> {
-    const url: string = `http://localhost:5001/orders/orderproducts?orderId=${orderId}`;
+    const url: string = `https://estore-backend-sqni.onrender.com/orders/orderproducts?orderId=${orderId}`;
 
     return this.httpClient.get<PastOrderProduct[]>(url, {
       headers: { authorization: this.userService.token },
