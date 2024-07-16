@@ -1,27 +1,42 @@
 import { Component } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HeaderComponent } from './components/header/header.component';
-import { NavigationbarComponent } from './components/navigationbar/navigationbar.component';
-import { SidenavigationComponent } from './components/sidenavigation/sidenavigation.component';
-import { ProductsComponent } from './components/products/products.component';
-import { RatingsComponent } from '../shared/components/ratings/ratings.component';
-import { HttpClientModule } from '@angular/common/http';
 import { CategoriesStoreItem } from './services/category/categories.storeItem';
-import { CategoryService } from './services/category/category.service';
-import { ProductStoreItem } from './services/products/products.storeItem';
-import { ProductsService } from './services/products/products.service';
+import { ProductsStoreItem } from './services/product/products.storeItem';
+import { SearchKeyword } from './types/searchKeyword.type';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [HeaderComponent, NavigationbarComponent, FontAwesomeModule, SidenavigationComponent, ProductsComponent, RatingsComponent, HttpClientModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  providers: [CategoriesStoreItem, CategoryService, ProductStoreItem, ProductsService]
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(private categoriesStoreItems: CategoriesStoreItem, private productStoreItems: ProductStoreItem){
-    this.categoriesStoreItems.loadCategories();
-    this.productStoreItems.loadProducts();
+  constructor(
+    private categoriesStoreItem: CategoriesStoreItem,
+    private productsStoreItem: ProductsStoreItem,
+    private router: Router
+  ) {
+    this.categoriesStoreItem.loadCategories();
+    this.productsStoreItem.loadProducts();
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if ((event as NavigationEnd).url === '/home') {
+          router.navigate(['/home/products']);
+        }
+      });
+  }
+
+  onSelectCategory(categoryId: number): void {
+    this.productsStoreItem.loadProducts('maincategoryid=' + categoryId);
+  }
+
+  onSearchKeyword(searchKeyword: SearchKeyword): void {
+    this.productsStoreItem.loadProducts(
+      'maincategoryid=' +
+        searchKeyword.categoryId +
+        '&keyword=' +
+        searchKeyword.keyword
+    );
   }
 }

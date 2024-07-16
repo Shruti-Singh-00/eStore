@@ -8,10 +8,10 @@ describe('SidenavigationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SidenavigationComponent]
+      declarations: [ SidenavigationComponent ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(SidenavigationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

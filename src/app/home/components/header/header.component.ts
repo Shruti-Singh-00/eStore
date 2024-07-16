@@ -1,27 +1,83 @@
-import { Component } from '@angular/core';
-import { faSearch, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CategoryService } from '../../services/category/category.service';
-import { Category } from '../../types/category.type';
+import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
+import {
+  faSearch,
+  faUserCircle,
+  faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
+import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
+import { SearchKeyword } from '../../types/searchKeyword.type';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { CartStoreItem } from '../../services/cart/cart.storeItem';
+import { UserService } from '../../services/users/user-service.service';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [FontAwesomeModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   faSearch = faSearch;
-  faUser = faUserCircle;
-  faCart = faShoppingCart;
+  faUserCircle = faUserCircle;
+  faShoppingCart = faShoppingCart;
+  subscriptions: Subscription = new Subscription();
 
-  categories: Category[] = [];
+  @Output()
+  searchClicked: EventEmitter<SearchKeyword> =
+    new EventEmitter<SearchKeyword>();
 
-  constructor(categoryServices: CategoryService){
-    categoryServices.getAllCategories().subscribe(categories => {
-      this.categories = categories.filter(category => category.parent_category_id === null
-      );
+  displaySearch: boolean = true;
+  isUserAuthenticated: boolean = false;
+  userName: string = '';
+
+  constructor(
+    public categoryStore: CategoriesStoreItem,
+    private router: Router,
+    public cartStore: CartStoreItem,
+    public userService: UserService
+  ) {
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.displaySearch =
+          (event as NavigationEnd).url === '/home/products' ? true : false;
+      });
+
+    this.subscriptions.add(
+      this.userService.isUserAuthenticated$.subscribe((result) => {
+        this.isUserAuthenticated = result;
+      })
+    );
+
+    this.subscriptions.add(
+      this.userService.loggedInUser$.subscribe((result) => {
+        this.userName = result.firstName;
+      })
+    );
+  }
+
+  onClickSearch(keyword: string, categoryId: string): void {
+    this.searchClicked.emit({
+      categoryId: parseInt(categoryId),
+      keyword: keyword,
     });
+  }
+
+  navigateToCart(): void {
+    this.router.navigate(['home/cart']);
+  }
+
+  logout(): void {
+    this.userService.logout();
+    this.router.navigate(['home/products']);
+  }
+
+  pastOrders(): void {
+    this.router.navigate(['home/pastorders']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

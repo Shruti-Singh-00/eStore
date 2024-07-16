@@ -1,40 +1,28 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import { ProductsService } from '../../services/products/products.service';
+import { Component } from '@angular/core';
+import { ProductsStoreItem } from '../../services/product/products.storeItem';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Product } from '../../types/products.type';
-import { RatingsComponent } from '../../../shared/components/ratings/ratings.component';
-import { CommonModule } from '@angular/common';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { ProductStoreItem } from '../../services/products/products.storeItem';
-import { Subscription } from 'rxjs';
+import { CartStoreItem } from '../../services/cart/cart.storeItem';
+import { Cart } from '../../types/cart.type';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
-  imports: [RatingsComponent, CommonModule],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css',
-  providers: [ProductsService],
+  styleUrls: ['./products.component.scss'],
 })
-export class ProductsComponent implements OnDestroy{
-  products: Product[] = [];
-  subscriptions: Subscription = new Subscription();
-  isBrowser: any;
-  isServer: any;
+export class ProductsComponent {
+  faShoppingCart = faShoppingCart;
+  session = sessionStorage.getItem('cart');
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any, private productStore: ProductStoreItem
-  ){
-    this.isBrowser = isPlatformBrowser(platformId);
-    this.isServer = isPlatformServer(platformId);
-    this.subscriptions.add(
-      productStore.products$.subscribe((products) => {
-        this.products = products;
-      })
-    );
+    public productsStore: ProductsStoreItem,
+    private cart: CartStoreItem,
+  ) {
+    this.session = null;
+    sessionStorage.clear();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  addToCart(product: Product) {
+    this.cart.addProduct(product);
   }
-  
 }

@@ -4,30 +4,36 @@
   </div>
 
   <div class="accordion">
-    @for (mainCategory of getCategories(); track mainCategory; let i = $index) {
-      <div class="accordion-item individual-category">
-        <div class="accordion-header">
-          <button
-            class="accordion-button"
-            type="button"
-            data-bs-toggle="collapse"
-            [attr.data-bs-target]="'#collapse' + i"
-            >
-            <div class="category-title ">
-              <a href="#">{{ mainCategory.category }}</a>
-            </div>
-          </button>
-        </div>
-        <div [id]="'collapse' + i" class="accordion-collapse collapse show">
-          <div class="accordion-body">
-            <ul>
-              @for (subCategory of getCategories(mainCategory.id); track subCategory) {
-                <li class="sub-items underline"><a href="#">{{subCategory.category}}</a></li>
-              }
-            </ul>
+    <div
+      *ngFor="let mainCategory of getCategories(); let i = index"
+      class="accordion-item individual-category"
+    >
+      <div class="accordion-header">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + i"
+        >
+          <div class="category-title">
+            <a href="#">{{ mainCategory.category }}</a>
           </div>
+        </button>
+      </div>
+      <div [id]="'collapse' + i" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          <ul>
+            <li 
+              *ngFor="let subCategory of getCategories(mainCategory.id)"
+              class="sub-items underline"
+            >
+              <a (click)="onSubCategoryClick(subCategory)">{{
+                subCategory.category
+              }}</a>
+            </li>
+          </ul>
         </div>
       </div>
-    }
+    </div>
   </div>
 </div>
